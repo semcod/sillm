@@ -1,0 +1,27 @@
+// LESS format — define @variables here as needed
+
+app {
+  name: sllm;
+  version: 0.1.8;
+}
+
+dependencies {
+  dev: "pytest>=8.0,<10.0, ruff>=0.11,<0.16, goal>=2.1.0, costs>=0.1.20, pfix>=0.1.60";
+}
+
+interface[type="cli"] {
+  framework: argparse;
+}
+interface[type="cli"] page[name="sllm"] {
+
+}
+
+deploy {
+  target: pip;
+}
+
+environment[name="local"] {
+  runtime: python;
+  env_file: .env;
+  python_version: >=3.11;
+}

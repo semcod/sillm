@@ -3,8 +3,8 @@ requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sllm"
-version = "0.1.8"
+name = "sillm"
+version = "0.1.9"
 description = "Shell LLM client control plane for semcod/coru automation."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -36,7 +36,8 @@ dev = [
 ]
 
 [project.scripts]
-sllm = "sllm.cli:main"
+sillm = "sillm.cli:main"
+sllm = "sillm.cli:main"
 
 [tool.setuptools]
 package-dir = { "" = "src" }

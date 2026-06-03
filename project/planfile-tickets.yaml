@@ -1,0 +1,115 @@
+source: code2llm
+# generated in 0.01s
+schema: code2llm.planfile_tickets.v1
+project_root: /home/tom/github/semcod/sllm
+tickets:
+- signal: code2llm_cc
+  title: 'Reduce cyclomatic complexity: src.sllm.nlp._intent_from_nlp2dsl (CC=15)'
+  description: 'code2llm reports `src.sllm.nlp._intent_from_nlp2dsl` at `src/sllm/nlp.py:62`
+    with cyclomatic complexity 15 (limit 15).
+
+
+    Extract smaller functions, flatten conditionals, or split strategy branches. Re-run
+    code2llm after the change and keep tests green.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - complexity
+  - refactor
+  files:
+  - src/sllm/nlp.py
+  dedupe_key: code2llm:cc:src/sllm/nlp.py:src.sllm.nlp._intent_from_nlp2dsl
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: _build_parser'
+  description: 'code2llm reports `God Function: _build_parser` in `src/sllm/cli.py:29`.
+
+
+    Function ''_build_parser'' is oversized: CC=1, fan-out=8, mutations=27.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/sllm/cli.py
+  dedupe_key: 'code2llm:smell:god_function:src/sllm/cli.py:29:God Function: _build_parser'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: _strip_drive_prefix'
+  description: 'code2llm reports `God Function: _strip_drive_prefix` in `src/sllm/nlp.py:50`.
+
+
+    Function ''_strip_drive_prefix'' is oversized: CC=5, fan-out=5, mutations=7.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/sllm/nlp.py
+  dedupe_key: 'code2llm:smell:god_function:src/sllm/nlp.py:50:God Function: _strip_drive_prefix'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: build_drive_plan'
+  description: 'code2llm reports `God Function: build_drive_plan` in `src/sllm/controller.py:125`.
+
+
+    Function ''build_drive_plan'' is oversized: CC=3, fan-out=10, mutations=7.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/sllm/controller.py
+  dedupe_key: 'code2llm:smell:god_function:src/sllm/controller.py:125:God Function:
+    build_drive_plan'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: detect_koru_agent_rows'
+  description: 'code2llm reports `God Function: detect_koru_agent_rows` in `src/sllm/compat.py:95`.
+
+
+    Function ''detect_koru_agent_rows'' is oversized: CC=5, fan-out=6, mutations=7.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/sllm/compat.py
+  dedupe_key: 'code2llm:smell:god_function:src/sllm/compat.py:95:God Function: detect_koru_agent_rows'
+- signal: code2llm_smell_god_function
+  title: 'Address code smell: God Function: launch_koru_agent'
+  description: 'code2llm reports `God Function: launch_koru_agent` in `src/sllm/compat.py:145`.
+
+
+    Function ''launch_koru_agent'' is oversized: CC=8, fan-out=10, mutations=8.
+
+
+    Make the smallest refactor that removes the smell and run local tests.'
+  priority: normal
+  labels:
+  - llm-ready
+  - code2llm
+  - code-smell
+  - god-function
+  files:
+  - src/sllm/compat.py
+  dedupe_key: 'code2llm:smell:god_function:src/sllm/compat.py:145:God Function: launch_koru_agent'
+applied: []
+skipped: []

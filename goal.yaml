@@ -1,5 +1,5 @@
 # goal.yaml - Goal configuration file
-# Generated: 2026-06-03 17:10:11
+# Generated: 2026-06-03 17:24:17
 # Documentation: https://github.com/wronai/goal#configuration
 #
 # This file configures Goal's behavior for:
@@ -13,7 +13,7 @@
 
 version: '1.0'
 project:
-  name: sllm
+  name: sillm
   type:
   - python
   description: Shell LLM client control plane for semcod/coru automation.
@@ -22,7 +22,7 @@ versioning:
   files:
   - VERSION
   - pyproject.toml:version
-  - venv/lib/python3.13/site-packages/markdown_it/__init__.py:__version__
+  - venv/lib/python3.13/site-packages/cryptography/__init__.py:__version__
   bump_rules:
     patch: 10
     minor: 50
@@ -224,7 +224,7 @@ strategies:
   python:
     test: pytest tests/ -v
     build: python -m build
-    publish: twine upload dist/sllm-{version}*
+    publish: twine upload dist/sillm-{version}*
     publish_enabled: true
     dependencies:
       file: requirements.txt
@@ -232,7 +232,7 @@ strategies:
   nodejs:
     test: npm test
     build: npm run build
-    publish: npm publish
+    publish: twine upload dist/sillm-{version}*
     publish_enabled: true
     dependencies:
       file: package-lock.json
@@ -240,7 +240,7 @@ strategies:
   rust:
     test: cargo test
     build: cargo build --release
-    publish: cargo publish
+    publish: twine upload dist/sillm-{version}*
     publish_enabled: true
     dependencies:
       file: Cargo.lock

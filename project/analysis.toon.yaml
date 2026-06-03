@@ -1,0 +1,64 @@
+# code2llm | 11f 1668L | python:7,shell:2,yaml:1,toml:1 | 2026-06-03
+# generated in 0.00s
+# CC̅=3.3 | critical:1/45 | dups:0 | cycles:0
+
+HEALTH[1]:
+  🟡 CC    _intent_from_nlp2dsl CC=15 (limit:15)
+
+REFACTOR[1]:
+  1. split 1 high-CC methods  (CC>15)
+
+PIPELINES[15]:
+  [1] Src [main]: main → _print
+      PURITY: 100% pure
+  [2] Src [shell_preview]: shell_preview
+      PURITY: 100% pure
+  [3] Src [to_dict]: to_dict
+      PURITY: 100% pure
+  [4] Src [to_dict]: to_dict
+      PURITY: 100% pure
+  [5] Src [command_path]: command_path
+      PURITY: 100% pure
+  [6] Src [to_dict]: to_dict
+      PURITY: 100% pure
+  [7] Src [to_dict]: to_dict
+      PURITY: 100% pure
+  [8] Src [is_client_available]: is_client_available → get_client_spec → normalize_client_id
+      PURITY: 100% pure
+  [9] Src [shell_client_ids]: shell_client_ids → iter_client_specs
+      PURITY: 100% pure
+  [10] Src [shell_process_patterns]: shell_process_patterns → iter_client_specs
+      PURITY: 100% pure
+  [11] Src [tool_registry_entries]: tool_registry_entries → iter_client_specs
+      PURITY: 100% pure
+  [12] Src [autopilot_backend_for_client]: autopilot_backend_for_client → is_shell_llm_client → get_client_spec → normalize_client_id
+      PURITY: 100% pure
+  [13] Src [detect_koru_agent_rows]: detect_koru_agent_rows → detect_clients → normalize_client_id
+      PURITY: 100% pure
+  [14] Src [drive_koru_chat]: drive_koru_chat → drive_shell_llm → build_drive_plan → _resolve_spec → ...(2 more)
+      PURITY: 100% pure
+  [15] Src [launch_koru_agent]: launch_koru_agent → normalize_client_id
+      PURITY: 100% pure
+
+LAYERS:
+  src/                            CC̄=3.3    ←in:0  →out:0
+  │ controller                 244L  6C   11m  CC=10     ←2
+  │ compat                     205L  0C   11m  CC=8      ←0
+  │ registry                   167L  1C    6m  CC=4      ←5
+  │ cli                        139L  0C    6m  CC=6      ←0
+  │ validation                 127L  1C    6m  CC=9      ←1
+  │ !! nlp                        104L  1C    5m  CC=15     ←1
+  │ __init__                    36L  0C    0m  CC=0.0    ←0
+  │
+  ./                              CC̄=0.0    ←in:0  →out:0
+  │ !! goal.yaml                  511L  0C    0m  CC=0.0    ←0
+  │ pyproject.toml              84L  0C    0m  CC=0.0    ←0
+  │ project.sh                  50L  0C    0m  CC=0.0    ←0
+  │ tree.sh                      1L  0C    0m  CC=0.0    ←0
+  │
+
+COUPLING: no cross-package imports detected
+
+EXTERNAL:
+  validation: run `vallm batch .` → validation.toon
+  duplication: run `redup scan .` → duplication.toon

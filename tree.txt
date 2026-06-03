@@ -1,0 +1,57 @@
+.
+├── app.doql.less
+├── CHANGELOG.md
+├── goal.yaml
+├── LICENSE
+├── project
+│   ├── analysis.toon.yaml
+│   ├── calls.mmd
+│   ├── calls.png
+│   ├── calls.toon.yaml
+│   ├── calls.yaml
+│   ├── compact_flow.mmd
+│   ├── compact_flow.png
+│   ├── context.md
+│   ├── duplication.toon.yaml
+│   ├── evolution.toon.yaml
+│   ├── flow.mmd
+│   ├── flow.png
+│   ├── index.html
+│   ├── logic.pl
+│   ├── map.toon.yaml
+│   ├── mermaid.export
+│   ├── planfile-tickets.yaml
+│   ├── project.toon.yaml
+│   ├── prompt.txt
+│   └── README.md
+├── project.sh
+├── pyproject.toml
+├── README.md
+├── src
+│   ├── sllm
+│   │   ├── cli.py
+│   │   ├── compat.py
+│   │   ├── controller.py
+│   │   ├── __init__.py
+│   │   ├── nlp.py
+│   │   ├── registry.py
+│   │   └── validation.py
+│   └── sllm.egg-info
+│       ├── dependency_links.txt
+│       ├── entry_points.txt
+│       ├── PKG-INFO
+│       ├── requires.txt
+│       ├── SOURCES.txt
+│       └── top_level.txt
+├── SUMD.md
+├── SUMR.md
+├── testql-scenarios
+│   └── generated-cli-tests.testql.toon.yaml
+├── tests
+│   └── test_sllm.py
+├── tree.sh
+├── tree.txt
+├── uv.lock
+└── VERSION
+
+7 directories, 48 files
