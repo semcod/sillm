@@ -487,34 +487,6 @@ wheels = [
 ]
 
 [[package]]
-name = "clillm"
-version = "0.1.17"
-source = { editable = "." }
-
-[package.optional-dependencies]
-dev = [
-    { name = "build" },
-    { name = "costs" },
-    { name = "goal" },
-    { name = "pfix" },
-    { name = "pytest" },
-    { name = "ruff" },
-    { name = "twine" },
-]
-
-[package.metadata]
-requires-dist = [
-    { name = "build", marker = "extra == 'dev'", specifier = ">=1.0,<2.0" },
-    { name = "costs", marker = "extra == 'dev'", specifier = ">=0.1.20" },
-    { name = "goal", marker = "extra == 'dev'", specifier = ">=2.1.0" },
-    { name = "pfix", marker = "extra == 'dev'", specifier = ">=0.1.60" },
-    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0,<10.0" },
-    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.11,<0.16" },
-    { name = "twine", marker = "extra == 'dev'", specifier = ">=6.0,<7.0" },
-]
-provides-extras = ["dev"]
-
-[[package]]
 name = "colorama"
 version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
@@ -2808,6 +2780,34 @@ sdist = { url = "https://files.pythonhosted.org/packages/7a/fd/7a5ee21fd08ff70d3
 wheels = [
     { url = "https://files.pythonhosted.org/packages/e6/34/ebdc18bae6aa14fbee1a08b63c015c72b64868ff7dae68808ab500c492e2/tinycss2-1.4.0-py3-none-any.whl", hash = "sha256:3a49cf47b7675da0b15d0c6e1df8df4ebd96e9394bb905a5775adb0d884c5289", size = 26610, upload-time = "2024-10-24T14:58:28.029Z" },
 ]
+
+[[package]]
+name = "tllm"
+version = "0.1.18"
+source = { editable = "." }
+
+[package.optional-dependencies]
+dev = [
+    { name = "build" },
+    { name = "costs" },
+    { name = "goal" },
+    { name = "pfix" },
+    { name = "pytest" },
+    { name = "ruff" },
+    { name = "twine" },
+]
+
+[package.metadata]
+requires-dist = [
+    { name = "build", marker = "extra == 'dev'", specifier = ">=1.0,<2.0" },
+    { name = "costs", marker = "extra == 'dev'", specifier = ">=0.1.20" },
+    { name = "goal", marker = "extra == 'dev'", specifier = ">=2.1.0" },
+    { name = "pfix", marker = "extra == 'dev'", specifier = ">=0.1.60" },
+    { name = "pytest", marker = "extra == 'dev'", specifier = ">=8.0,<10.0" },
+    { name = "ruff", marker = "extra == 'dev'", specifier = ">=0.11,<0.16" },
+    { name = "twine", marker = "extra == 'dev'", specifier = ">=6.0,<7.0" },
+]
+provides-extras = ["dev"]
 
 [[package]]
 name = "tokenizers"
