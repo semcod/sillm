@@ -1,1 +1,55 @@
 # sllm
+
+
+## AI Cost Tracking
+
+![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.1-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
+![AI Cost](https://img.shields.io/badge/AI%20Cost-$0.15-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-1.0h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
+
+- 🤖 **LLM usage:** $0.1500 (1 commits)
+- 👤 **Human dev:** ~$100 (1.0h @ $100/h, 30min dedup)
+
+Generated on 2026-06-03 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
+
+---
+
+Shell LLM control plane for the semcod/coru ecosystem.
+
+SLLM owns the shell-client side of LLM automation: clients such as `aider`,
+`claude`, `codex`, `gemini`, `qwen-code`, `opencode`, and `devin`. GUI/IDE
+chat control stays in `koruide` and the existing Koru autopilot socket path.
+
+## Commands
+
+```bash
+sllm clients
+sllm drive --client aider --prompt "Refactor ticket PLF-1"          # dry-run
+sllm drive --client aider --prompt "Refactor ticket PLF-1" --execute
+sllm nlp "aider: napraw testy dla kolejki"                          # NLP -> DSL
+```
+
+`sllm drive` always saves the prompt under `.koru/sllm/prompts/` before it
+executes or prints a dry-run plan.
+
+## Optional ecosystem integrations
+
+```bash
+pip install -e ".[nlp]"       # nlp2dsl SDK bridge
+pip install -e ".[intent]"    # intract intent validation hooks
+pip install -e ".[ecosystem]" # nlp2dsl + intract + redsl + proxym + llx, Python 3.11+
+```
+
+The `nlp2dsl` bridge is opt-in at runtime:
+
+```bash
+export SLLM_NLP2DSL=1
+export NLP2DSL_BACKEND_URL=http://localhost:8010
+sllm nlp "uruchom claude dla ticketu PLF-123"
+```
+
+Without the service, SLLM falls back to a deterministic local parser.
+
+
+## License
+
+Licensed under Apache-2.0.
