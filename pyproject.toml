@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tllm"
-version = "0.1.18"
+version = "0.1.19"
 description = "Shell LLM client control plane for semcod/coru automation."
 readme = "README.md"
 requires-python = ">=3.11"
