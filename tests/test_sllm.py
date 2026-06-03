@@ -6,7 +6,10 @@ from sllm.compat import (
     SHELL_AUTOPILOT_BACKEND,
     autopilot_backend_for_client,
     detect_koru_agent_rows,
+    is_client_available,
     shell_client_ids,
+    shell_process_patterns,
+    tool_registry_entries,
 )
 from sllm.controller import ShellDriveRequest, build_drive_plan
 from sllm.nlp import intent_from_text
@@ -40,6 +43,14 @@ def test_compat_exports_koru_agent_rows(monkeypatch) -> None:
     assert claude["available"] is True
     assert claude["launchable"] is True
     assert claude["command"] == "/usr/bin/claude"
+    assert is_client_available("claude") is True
+    assert is_client_available("aider") is False
+    assert ("codex", "Codex CLI", ("codex",)) in shell_process_patterns()
+    registry = {str(row["id"]): row for row in tool_registry_entries()}
+    assert registry["aider"]["category"] == "cli_agent"
+    assert registry["aider"]["invoke"] == (
+        "koru sllm drive --client aider --prompt '<prompt>' --execute"
+    )
 
 
 def test_build_drive_plan_uses_message_file_for_aider(monkeypatch, tmp_path: Path) -> None:

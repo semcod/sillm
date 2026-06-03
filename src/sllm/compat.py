@@ -23,8 +23,43 @@ def is_shell_llm_client(agent_id: str) -> bool:
     return get_client_spec(agent_id) is not None
 
 
+def is_client_available(client_id: str) -> bool:
+    spec = get_client_spec(client_id)
+    return bool(spec and spec.command_path())
+
+
 def shell_client_ids() -> tuple[str, ...]:
     return tuple(spec.id for spec in iter_client_specs())
+
+
+def shell_process_patterns() -> tuple[tuple[str, str, tuple[str, ...]], ...]:
+    return tuple((spec.id, spec.label, spec.commands) for spec in iter_client_specs())
+
+
+def tool_registry_entries() -> tuple[dict[str, object], ...]:
+    entries: list[dict[str, object]] = []
+    stable = {"claude-code", "aider"}
+    for spec in iter_client_specs():
+        entries.append(
+            {
+                "id": spec.id,
+                "name": spec.label,
+                "category": "cli_agent",
+                "lane": "native",
+                "stability": "stable" if spec.id in stable else "beta",
+                "detect": {
+                    "commands": list(spec.commands),
+                    "markers": [],
+                    "env": [],
+                },
+                "invoke": (
+                    f"koru sllm drive --client {spec.id} "
+                    "--prompt '<prompt>' --execute"
+                ),
+                "notes": "Shell agent lane delegated to the external sllm plugin.",
+            }
+        )
+    return tuple(entries)
 
 
 def autopilot_backend_for_client(agent_id: str) -> str | None:
@@ -132,7 +167,10 @@ __all__ = [
     "autopilot_backend_for_client",
     "detect_koru_agent_rows",
     "drive_koru_chat",
+    "is_client_available",
     "is_shell_llm_client",
     "launch_koru_agent",
     "shell_client_ids",
+    "shell_process_patterns",
+    "tool_registry_entries",
 ]
