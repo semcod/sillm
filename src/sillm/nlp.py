@@ -64,9 +64,9 @@ def _intent_from_nlp2dsl(text: str, default_client: str | None) -> ShellIntent |
     if not enabled:
         return None
     try:
-        from nlp2dsl_sdk import NLP2DSLClient
-
-        with NLP2DSLClient.from_env() as client:
+        from nlpshim.client import get_nlp2dsl_client
+        ClientClass = get_nlp2dsl_client()
+        with ClientClass.from_env() as client:
             payload = client.workflow_from_text(text, execute=False, mode="auto")
     except Exception:
         return None
