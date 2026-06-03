@@ -3,11 +3,11 @@
 
 ## AI Cost Tracking
 
-![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.12-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
-![AI Cost](https://img.shields.io/badge/AI%20Cost-$1.10-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-2.8h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
+![PyPI](https://img.shields.io/badge/pypi-costs-blue) ![Version](https://img.shields.io/badge/version-0.1.14-blue) ![Python](https://img.shields.io/badge/python-3.9+-blue) ![License](https://img.shields.io/badge/license-Apache--2.0-green)
+![AI Cost](https://img.shields.io/badge/AI%20Cost-$1.10-orange) ![Human Time](https://img.shields.io/badge/Human%20Time-2.9h-blue) ![Model](https://img.shields.io/badge/Model-openrouter%2Fqwen%2Fqwen3--coder--next-lightgrey)
 
-- 🤖 **LLM usage:** $1.0957 (11 commits)
-- 👤 **Human dev:** ~$283 (2.8h @ $100/h, 30min dedup)
+- 🤖 **LLM usage:** $1.0965 (12 commits)
+- 👤 **Human dev:** ~$287 (2.9h @ $100/h, 30min dedup)
 
 Generated on 2026-06-03 using [openrouter/qwen/qwen3-coder-next](https://openrouter.ai/qwen/qwen3-coder-next)
 
@@ -40,10 +40,12 @@ Client notes:
 
 ## Optional ecosystem integrations
 
+PyPI wheels ship only the `dev` extra. Monorepo siblings use local editable installs
+(PyPI rejects `file://` URLs in package metadata):
+
 ```bash
-pip install -e ".[nlp]"       # nlp2dsl SDK bridge
-pip install -e ".[intent]"    # intract intent validation hooks
-pip install -e ".[ecosystem]" # nlp2dsl + intract + redsl + proxym + llx, Python 3.11+
+pip install -e ".[dev]"
+pip install -e ../nlp2dsl ../intract ../redsl ../proxym ../llx   # adjust paths for your checkout
 ```
 
 The `nlp2dsl` bridge is opt-in at runtime:

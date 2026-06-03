@@ -3,8 +3,8 @@ requires = ["setuptools>=77", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "sillm"
-version = "0.1.12"
+name = "cllm"
+version = "0.1.14"
 description = "Shell LLM client control plane for semcod/coru automation."
 readme = "README.md"
 requires-python = ">=3.11"
@@ -14,22 +14,11 @@ keywords = ["llm", "shell", "aider", "claude", "codex", "automation"]
 dependencies = []
 
 [project.optional-dependencies]
-nlp = [
-    "nlp2dsl @ file:///home/tom/github/wronai/nlp2dsl",
-]
-intent = [
-    "intract @ file:///home/tom/github/semcod/intract",
-]
-ecosystem = [
-    "nlp2dsl @ file:///home/tom/github/wronai/nlp2dsl",
-    "intract @ file:///home/tom/github/semcod/intract",
-    "redsl @ file:///home/tom/github/semcod/redsl",
-    "proxym @ file:///home/tom/github/semcod/proxym",
-    "llx @ file:///home/tom/github/semcod/llx",
-]
 dev = [
+    "build>=1.0,<2.0",
     "pytest>=8.0,<10.0",
     "ruff>=0.11,<0.16",
+    "twine>=6.0,<7.0",
     "goal>=2.1.0",
     "costs>=0.1.20",
     "pfix>=0.1.60",

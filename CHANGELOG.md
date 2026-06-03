@@ -7,6 +7,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.1.14] - 2026-06-03
+
+### Docs
+- Update CHANGELOG.md
+- Update README.md
+
+### Other
+- Update VERSION
+- Update uv.lock
+
+## [0.1.13] - 2026-06-03
+
+### Fixed
+- Declare build/publish tooling for dev installs and align publish artifact pattern.
+
 ## [0.1.12] - 2026-06-03
 
 ### Docs
@@ -122,4 +137,3 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Update .gitignore
 - Update .idea/.gitignore
 - Update uv.lock
-
