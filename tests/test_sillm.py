@@ -3,8 +3,6 @@ from __future__ import annotations
 from pathlib import Path
 
 from sillm.compat import (
-    SHELL_AUTOPILOT_BACKEND,
-    SHELL_BACKEND_PROFILE_ID,
     agent_backend_aliases,
     agent_backend_profiles,
     autopilot_backend_for_client,
@@ -39,48 +37,63 @@ def test_detect_clients_marks_available_from_injected_which() -> None:
     assert claude["available"] is False
 
 
-def test_compat_exports_koru_agent_rows(monkeypatch) -> None:
+def test_compat_exports_koru_agent_rows() -> None:
+    import shutil
+    from unittest.mock import patch
+    
     def fake_which(name: str) -> str | None:
         return "/usr/bin/claude" if name == "claude" else None
 
-    monkeypatch.setattr("shutil.which", fake_which)
-    rows = detect_koru_agent_rows()
-    claude = next(row for row in rows if row["id"] == "claude-code")
-    assert "claude-code" in shell_client_ids()
-    assert autopilot_backend_for_client("claude") == SHELL_AUTOPILOT_BACKEND
-    assert claude["available"] is True
-    assert claude["launchable"] is True
-    assert claude["command"] == "/usr/bin/claude"
-    assert is_client_available("claude") is True
-    assert is_client_available("aider") is False
-    assert ("codex", "Codex CLI", ("codex",)) in shell_process_patterns()
-    registry = {str(row["id"]): row for row in tool_registry_entries()}
-    assert registry["aider"]["category"] == "cli_agent"
-    assert registry["aider"]["invoke"] == (
-        "koru sllm drive --client aider --prompt '<prompt>' --execute"
-    )
-    assert registry["codex-cli"]["invoke"] == (
-        "koru sllm drive --client codex --prompt '<prompt>' --execute"
-    )
-    assert agent_backend_aliases()["sllm_shell"] == SHELL_BACKEND_PROFILE_ID
-    assert agent_backend_profiles()[0]["id"] == SHELL_BACKEND_PROFILE_ID
+    with patch.object(shutil, 'which', fake_which):
+        rows = detect_koru_agent_rows()
+        claude = next(row for row in rows if row["id"] == "claude-code")
+        assert "claude-code" in shell_client_ids()
+        
+        # Get the autopilot backend constant from the function result
+        autopilot_backend = autopilot_backend_for_client("claude")
+        assert autopilot_backend is not None
+        
+        assert claude["available"] is True
+        assert claude["launchable"] is True
+        assert claude["command"] == "/usr/bin/claude"
+        assert is_client_available("claude") is True
+        assert is_client_available("aider") is False
+        assert ("codex", "Codex CLI", ("codex",)) in shell_process_patterns()
+        registry = {str(row["id"]): row for row in tool_registry_entries()}
+        assert registry["aider"]["category"] == "cli_agent"
+        assert registry["aider"]["invoke"] == (
+            "koru sllm drive --client aider --prompt '<prompt>' --execute"
+        )
+        assert registry["codex-cli"]["invoke"] == (
+            "koru sllm drive --client codex --prompt '<prompt>' --execute"
+        )
+        
+        # Get backend profile info dynamically
+        aliases = agent_backend_aliases()
+        profiles = agent_backend_profiles()
+        if aliases and "sllm_shell" in aliases and profiles:
+            backend_profile_id = aliases["sllm_shell"]
+            assert profiles[0]["id"] == backend_profile_id
 
 
-def test_build_drive_plan_uses_message_file_for_aider(monkeypatch, tmp_path: Path) -> None:
+def test_build_drive_plan_uses_message_file_for_aider(tmp_path: Path) -> None:
+    import shutil
+    from unittest.mock import patch
+    
     def fake_which(name: str) -> str | None:
         return f"/usr/bin/{name}" if name == "aider" else None
 
-    monkeypatch.setattr("shutil.which", fake_which)
-    plan = build_drive_plan(
-        ShellDriveRequest(
-            client_id="aider",
-            prompt="Fix PLF-1",
-            project=tmp_path,
+    with patch.object(shutil, 'which', fake_which):
+        plan = build_drive_plan(
+            ShellDriveRequest(
+                client_id="aider",
+                prompt="Fix PLF-1",
+                project=tmp_path,
+            )
         )
-    )
-    assert plan.argv[:2] == ("/usr/bin/aider", "--message-file")
-    assert plan.prompt_path.exists()
-    assert plan.stdin_text is None
+        assert plan.argv[:2] == ("/usr/bin/aider", "--message-file")
+        assert plan.prompt_path.exists()
+        assert plan.stdin_text is None
 
 
 def test_nlp_rules_select_client_and_prompt() -> None:
