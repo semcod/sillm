@@ -66,7 +66,8 @@ _SPECS: tuple[ShellClientSpec, ...] = (
         commands=("aider",),
         prompt_mode="message-file",
         prompt_file_flag="--message-file",
-        notes="Aider has a stable message-file workflow for task prompts.",
+        argv_prefix=("--no-show-model-warnings", "--yes-always"),
+        notes="Aider message-file workflow; argv_prefix skips headless confirmation prompts.",
     ),
     ShellClientSpec(
         id="codex",

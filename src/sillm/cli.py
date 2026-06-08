@@ -12,6 +12,8 @@ from sillm.nlp import intent_from_text
 from sillm.registry import detect_clients
 from sillm.validation import ecosystem_status, validate_intent
 
+_EXTRA_ARG_OPTION = "--extra-arg"
+
 
 def _print(payload: dict[str, object] | list[dict[str, object]], output_format: str) -> None:
     if output_format == "json":
@@ -45,7 +47,8 @@ def _build_parser() -> argparse.ArgumentParser:
         "--extra-arg",
         action="append",
         default=[],
-        help="Append raw client CLI arg.",
+        metavar="ARG",
+        help="Append client CLI arg; accepts --extra-arg=--flag and --extra-arg --flag.",
     )
     drive.add_argument("--format", choices=("text", "json"), default="json")
 
@@ -54,12 +57,35 @@ def _build_parser() -> argparse.ArgumentParser:
     nlp.add_argument("--client", default=None, help="Default client when text does not name one.")
     nlp.add_argument("--project", type=Path, default=Path.cwd(), help="Project root.")
     nlp.add_argument("--execute", action="store_true", help="Run the inferred client command.")
+    nlp.add_argument(
+        "--extra-arg",
+        action="append",
+        default=[],
+        metavar="ARG",
+        help="Append client CLI arg when --execute; accepts --extra-arg=--flag and --extra-arg --flag.",
+    )
     nlp.add_argument("--format", choices=("text", "json"), default="json")
 
     validate = sub.add_parser("validate", help="Validate SILLM ecosystem hooks.")
     validate.add_argument("--format", choices=("text", "json"), default="json")
 
     return parser
+
+
+def _normalize_extra_arg_tokens(argv: list[str]) -> list[str]:
+    normalized: list[str] = []
+    index = 0
+    while index < len(argv):
+        token = argv[index]
+        if token == _EXTRA_ARG_OPTION and index + 1 < len(argv):
+            value = argv[index + 1]
+            if value.startswith("-"):
+                normalized.append(f"{_EXTRA_ARG_OPTION}={value}")
+                index += 2
+                continue
+        normalized.append(token)
+        index += 1
+    return normalized
 
 
 def _read_prompt(args: argparse.Namespace) -> str:
@@ -114,6 +140,7 @@ def _nlp(args: argparse.Namespace) -> int:
             project=args.project,
             execute=True,
             dry_run=False,
+            extra_args=tuple(args.extra_arg or ()),
         )
     )
     _print({"ok": result.ok, "source": intent.source, "result": result.to_dict()}, args.format)
@@ -121,7 +148,8 @@ def _nlp(args: argparse.Namespace) -> int:
 
 
 def main(argv: list[str] | None = None) -> int:
-    args = _build_parser().parse_args(argv)
+    parse_argv = sys.argv[1:] if argv is None else argv
+    args = _build_parser().parse_args(_normalize_extra_arg_tokens(list(parse_argv)))
     if args.action == "clients":
         _print(detect_clients(), args.format)
         return 0

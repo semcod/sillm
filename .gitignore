@@ -228,3 +228,4 @@ __marimo__/
 
 # koru runtime artefacts (generated)
 .koru/
+.aider*

@@ -1,7 +1,9 @@
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
+from sillm.cli import main
 from sillm.compat import (
     agent_backend_aliases,
     agent_backend_profiles,
@@ -40,19 +42,19 @@ def test_detect_clients_marks_available_from_injected_which() -> None:
 def test_compat_exports_koru_agent_rows() -> None:
     import shutil
     from unittest.mock import patch
-    
+
     def fake_which(name: str) -> str | None:
         return "/usr/bin/claude" if name == "claude" else None
 
-    with patch.object(shutil, 'which', fake_which):
+    with patch.object(shutil, "which", fake_which):
         rows = detect_koru_agent_rows()
         claude = next(row for row in rows if row["id"] == "claude-code")
         assert "claude-code" in shell_client_ids()
-        
+
         # Get the autopilot backend constant from the function result
         autopilot_backend = autopilot_backend_for_client("claude")
         assert autopilot_backend is not None
-        
+
         assert claude["available"] is True
         assert claude["launchable"] is True
         assert claude["command"] == "/usr/bin/claude"
@@ -67,7 +69,7 @@ def test_compat_exports_koru_agent_rows() -> None:
         assert registry["codex-cli"]["invoke"] == (
             "koru sllm drive --client codex --prompt '<prompt>' --execute"
         )
-        
+
         # Get backend profile info dynamically
         aliases = agent_backend_aliases()
         profiles = agent_backend_profiles()
@@ -79,11 +81,11 @@ def test_compat_exports_koru_agent_rows() -> None:
 def test_build_drive_plan_uses_message_file_for_aider(tmp_path: Path) -> None:
     import shutil
     from unittest.mock import patch
-    
+
     def fake_which(name: str) -> str | None:
         return f"/usr/bin/{name}" if name == "aider" else None
 
-    with patch.object(shutil, 'which', fake_which):
+    with patch.object(shutil, "which", fake_which):
         plan = build_drive_plan(
             ShellDriveRequest(
                 client_id="aider",
@@ -91,9 +93,48 @@ def test_build_drive_plan_uses_message_file_for_aider(tmp_path: Path) -> None:
                 project=tmp_path,
             )
         )
-        assert plan.argv[:2] == ("/usr/bin/aider", "--message-file")
+        assert plan.argv[0] == "/usr/bin/aider"
+        assert "--no-show-model-warnings" in plan.argv
+        assert "--yes-always" in plan.argv
+        assert "--message-file" in plan.argv
         assert plan.prompt_path.exists()
         assert plan.stdin_text is None
+
+
+def test_drive_cli_accepts_space_form_extra_arg_flags(
+    monkeypatch,
+    tmp_path: Path,
+    capsys,
+) -> None:
+    monkeypatch.setattr(
+        "shutil.which",
+        lambda name: f"/usr/bin/{name}" if name == "aider" else None,
+    )
+
+    rc = main(
+        [
+            "drive",
+            "--client",
+            "aider",
+            "--project",
+            str(tmp_path),
+            "--prompt",
+            "Fix tests",
+            "--extra-arg",
+            "--no-show-model-warnings",
+            "--extra-arg",
+            "--yes-always",
+            "--format",
+            "json",
+        ]
+    )
+
+    payload = json.loads(capsys.readouterr().out)
+    assert rc == 0
+    assert payload["ok"] is True
+    assert payload["dry_run"] is True
+    assert payload["command"].count("--no-show-model-warnings") >= 1
+    assert payload["command"].count("--yes-always") >= 1
 
 
 def test_nlp_rules_select_client_and_prompt() -> None:
